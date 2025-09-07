@@ -184,12 +184,28 @@ const mockDrivers = [
 ];
 
 // ========================= CONFIG =========================
-const config = {
+// const config = {
   // Switch between mock and API
+// Put this at the top of your component
+  // ✅ inside your component, at the top (before any return)
+export default function DriversPage() {
+    const [dataSourceType, setDataSourceType] = useState("mock"); // or "api"
+
+// Update config to use the state
+const config = {
+
   dataSource: {
-    type: "mock", // "mock" | "api"
-    apiUrl: "/api/drivers", // used when type === "api"
+    type: dataSourceType,
+    apiUrl: "/api/drivers/drivers.json",
   },
+  // ...
+
+
+
+  // dataSource: {
+  //   type: "api", // "mock" | "api"
+  //   apiUrl: "/api/drivers/drivers.json", // used when type === "api"
+  // },
   i18nKeys: {
     headers: {
       id: "table.headers.id",
@@ -594,7 +610,6 @@ function FilterPanel({ t, schema, value, onChange, onApply, onClear }) {
 }
 
 // ========================= MAIN PAGE COMPONENT =========================//
-export default function DriversPage() {
   const { t } = useTranslation();
   const navigate = useNavigate?.() || (() => {});
 
@@ -606,7 +621,7 @@ export default function DriversPage() {
 
   // Fetch data based on config (mock or API)
   const fetchData = async () => {
-    setLoading(true);
+    setLoading(false);
     try {
       if (config.dataSource.type === "api") {
         const res = await fetch(config.dataSource.apiUrl);
@@ -665,6 +680,16 @@ export default function DriversPage() {
         <button className="px-3 py-2 rounded-xl border flex items-center gap-2" onClick={fetchData}>
           <RefreshCcw className="h-4 w-4" /> {t(config.i18nKeys.common.refresh)}
         </button> 
+
+        <button
+  className="px-3 py-2 rounded-xl border flex items-center gap-2 h-4 w-4 px-2"
+  onClick={() =>
+    setDataSourceType((prev) => (prev === "mock" ? "api" : "mock"))
+  }
+>
+  Switch to {dataSourceType === "mock" ? "API" : "Mock"} Data
+</button>
+
         </div>
         
       </div>
