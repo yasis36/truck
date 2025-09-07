@@ -32,12 +32,12 @@ display: flex;
 background-size:cover;
 
 }
-.pages{
-  gap: 3rem;                 /* space-y-4 */
-   padding: 1rem; 
-       background-image:url('img/a-truck-free-photo.png');
 
-   
+.pages button{
+  gap: 3rem;                 /* space-y-4 */
+   margin:0.6rem; 
+  background: #bedcd4;
+
 
 }
 .export button{
